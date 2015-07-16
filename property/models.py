@@ -23,8 +23,16 @@ class Property(models.Model):
     text = models.CharField(max_length=500)
     date_added = models.DateTimeField(auto_now=True)
 
-class Tags(models.Model):
-
+class Tag(models.Model):
+    property = models.ForeignKey(Property)
+    tag = models.CharField(max_length=100)
+    
 class Rating(models.Model):
-
+    property = models.ForeignKey(Property)
+    user = models.ForeignKey(User)
+    text = models.IntegerField(default=0)
+     
 class Review(models.Model):
+    property = models.ForeignKey(Property)
+    user = models.ForeignKey(User)
+    text = models.CharField(max_length=500)
