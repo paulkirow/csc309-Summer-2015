@@ -1,0 +1,97 @@
+{% load staticfiles %}
+
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="application-name" content="">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <title>OpenYard</title>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="{% static 'css/slider.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <header>
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="" class="navbar-brand">OpenYard</a>
+                </div>
+                <div class="collapse navbar-collapse navbar-right">
+                    <div class="navbar-text">DEMO USER</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <aside>
+            <div id="sidebar">
+                <ul>
+                    <li><a href="">Property Listing</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li><a href="addProperty">Add Property</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <div class="main">
+            <div class="form-group">
+                <label for="province">Province:</label>
+                <select class="form-control" id="province">
+                    <option>ON</option>
+                    <option>AB</option>
+                    <option>CD</option>
+                    <option>EF</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <select class="form-control" id="city">
+                    <option>Toronto</option>
+                    <option>Ottawa</option>
+                    <option>Winnipeg</option>
+                    <option>Oshawa</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="size">Size:</label>
+                <div class="sliderWrapper">
+                    <input type="text" class="slider"
+                           data-slider-min="10" data-slider-max="100"
+                           data-slider-step="5" data-slider-value="[10, 100]">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="{% static 'js/slider.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

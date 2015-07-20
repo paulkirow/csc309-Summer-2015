@@ -20,6 +20,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^$', 'property.views.home', name='home'),
+    url(r'^search', 'property.views.search', name='search'),
+    url(r'^addProperty', 'property.views.addProperty', name='addProperty'),
     # url(r'^register/$', 'property.views.register', name='register'),
     url(r'^admin/', include(admin.site.urls)),
 ]
