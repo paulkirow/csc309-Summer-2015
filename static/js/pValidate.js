@@ -15,8 +15,10 @@ jQuery.validator.setDefaults({
             error.insertAfter(element.parent());
         } else if (!element.siblings().filter('.label').length){
             error.insertAfter(element);
-            console.log(element.siblings().filter('.label').length);
         }
+    },
+    invalidHandler: function(event, validator) {
+    	console.log($('.label-danger'));
+    	$('.label-danger').remove();
     }
-    
 });
