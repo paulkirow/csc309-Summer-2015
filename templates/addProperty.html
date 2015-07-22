@@ -61,7 +61,7 @@
         </aside>
 
         <div class="main">
-            <form role="form" id="propertyform">
+            <form role="form" id="propertyform" method="post"> {% csrf_token %}
             	<div class="form-group">
                     <label for="title">Title for your posting:</label>
                     <input type="text" class="form-control" id="title" name="title" maxlength="100" required>
@@ -79,13 +79,24 @@
                     <input type="text" class="form-control" id="province" name="province" maxlength="50" required>
                 </div>
                 <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea class="form-control" rows="5" id="description" name="description" maxlength="500"></textarea>
+                    <label for="size">Approximate size (of the property):</label>
+                    <input type="text" class="form-control" id="size" name="size" maxlength="10" required>
                 </div>
+                <div class="form-group">
+                    <label for="text">Description:</label>
+                    <textarea class="form-control" rows="5" id="text" name="text" maxlength="500"></textarea>
+                </div>
+                <input type="hidden" id="user" name="user" value="{{ user }}">
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
             <script>
-            	$('#propertyform').validate();
+            	$( "#propertyform" ).validate({
+            	  rules: {
+            	    size: {
+            	      number: true
+            	    }
+            	  }
+            	});
             </script>
         </div>
     </div>
