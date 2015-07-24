@@ -19,13 +19,10 @@ def search(request):
 def addProperty(request):
     if (request.user.is_authenticated()):
         user = request.user
-    """ Authentication doesn't work atm
-    else:
-        return HttpResponseRedirect('/')"""
     
     if request.method == 'GET':
-        """context = {'user': user}"""
-        return render(request, "addProperty.html", {})
+        context = {'user': user}
+        return render(request, "addProperty.html", context)
     else:
         title = request.POST.get("title", "")
         address = request.POST.get("address", "")
@@ -39,7 +36,7 @@ def addProperty(request):
         cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
         user_id = cursor.fetchone()
         cursor.execute("INSERT INTO property_property (title, address, city, province, size, text, user_id, date_added) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
-                       [title, address, city, province, size, text, '9000', ''])
+                       [title, address, city, province, size, text, user, ''])
         return HttpResponseRedirect('/')
 
 def register(request):
