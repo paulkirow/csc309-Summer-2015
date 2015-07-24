@@ -6,23 +6,41 @@ body {
 	padding-top: 75px;
 	padding-left: 175px;
 	background: #EEEEEE;
+	color:black;
 }
+p{
+	color:black;
+}
+#notamember{
+	color:white;
 
+}
 .navbar-default {
 	background: #333333;
 	border: 1px solid black;
+	color:white;
 }
 
 .navbar-default .navbar-brand {
-	color: #BBBBBB;
+	color: #31DCE8;
+	font-size:2.5em;
 }
 
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:active,
 .navbar-default .navbar-brand:focus {
+	color: #31DCE8;
+}
+.navbar-text{
+	color:white;
+}
+.navbar-text a{
+	text-decoration: none;
+	color: #31DCE8;
+}
+.navbar-text a:hover {
 	color: white;
 }
-
 #sidebar {
 	position: fixed;
 	left: 0;

@@ -1,0 +1,18 @@
+{% include "header.html" %}
+{% load i18n %}
+    <div class="container-fluid">
+        <aside>
+            <div id="sidebar">
+                {% include "sidebar.html" %}
+            </div>
+        </aside>
+
+        <div class="main">
+            <h2>Sorry!</h2>
+			<p>{% trans "Account activation failed" %}</p>
+        
+        </div>
+    </div>
+    
+   {% include "footer.html" %}
+
