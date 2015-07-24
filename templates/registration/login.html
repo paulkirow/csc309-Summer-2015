@@ -1,14 +1,31 @@
-{% extends "base.html" %}
+{% include "header.html" %}
 
-{% block body_block %}
-<h1>Login</h1>
-        <form method="post" action=".">
+    <div class="container-fluid">
+        <aside>
+            <div id="sidebar">
+                {% include "sidebar.html" %}
+            </div>
+        </aside>
+
+        <div class="main">
+            <h1>Login</h1>
+			<form method="post" action=".">
                 {% csrf_token %}
                 {{ form.as_p }}
 
                 <input type="submit" value="Log in" />
                 <input type="hidden" name="next" value="{{ next }}" />
-                </form>
+            </form>
+			<br>
+			<p>Can't Remember! <a href="/accounts/password/reset/">Forgot Password</a>!</p>
+			<p>Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
+        
+        </div>
+    </div>
+    
+   {% include "footer.html" %}
 
-        <p>Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
+
+{% block body_block %}
+
 {% endblock %}

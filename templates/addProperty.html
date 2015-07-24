@@ -1,0 +1,64 @@
+{% include "header.html" %}
+{% load i18n %}
+    <div class="container-fluid">
+        <aside>
+            <div id="sidebar">
+                {% include "sidebar.html" %}
+            </div>
+        </aside>
+
+        <div class="main">
+		{% if user.is_authenticated %}
+			<form role="form" id="propertyform" method="post"> {% csrf_token %}
+            	<div class="form-group">
+                    <label for="title">Title for your posting:</label>
+                    <input type="text" class="form-control" id="title" name="title" maxlength="100" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" class="form-control" id="address" name="address" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" class="form-control" id="city" name="city" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="province">Province:</label>
+                    <input type="text" class="form-control" id="province" name="province" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="size">Approximate size (of the property):</label>
+                    <input type="text" class="form-control" id="size" name="size" maxlength="10" required>
+                </div>
+                <div class="form-group">
+                    <label for="text">Description:</label>
+                    <textarea class="form-control" rows="5" id="text" name="text" maxlength="500"></textarea>
+                </div>
+                <input type="hidden" id="user" name="user" value="{{ user }}">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <script>
+            	$( "#propertyform" ).validate({
+            	  rules: {
+            	    size: {
+            	      number: true
+            	    }
+            	  }
+            	});
+            </script>
+		{% else %}
+			<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+				{% csrf_token %}
+				<p><label for="id_username">Username:</label> <input id="id_username" type="text" name="username" maxlength="30" /></p>
+				<p><label for="id_password">Password:</label> <input type="password" name="password" id="id_password" /></p>
+
+				<input type="submit" value="Log in" />
+                <input type="hidden" name="next" value="{{ next }}" />
+			</form>
+		   
+		{% endif %}
+            
+        </div>
+    </div>
+    
+   {% include "footer.html" %}
