@@ -192,3 +192,12 @@ p{
 #propertyMain .form-control {
 	margin-bottom: 10px;
 }
+
+#propertyMain .field-big {
+	font-weight: bold;
+	font-size: 120%;
+}
+
+#propertyMain .field-small {
+	font-weight: bold;
+}
