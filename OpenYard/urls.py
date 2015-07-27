@@ -21,8 +21,9 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^$', 'property.views.home', name='home'),
+    url(r'^property/', include('property.urls', namespace="property")),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/', include('registration.backends.default.urls')), 
+    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^search', 'property.views.search', name='search'),
     url(r'^addProperty', 'property.views.addProperty', name='addProperty'),
 ]
