@@ -4,7 +4,8 @@ html, body {
 
 body {
 	padding-top: 75px;
-	padding-left: 175px;
+	padding-left: 200px;
+	padding-right: 25px;
 	background: #EEEEEE;
 	color:black;
 }
@@ -129,18 +130,13 @@ p{
 	border: 1px solid white;
 }
 
-.pagination li.active a {
-	color: #333333;
-	background: #BBBBBB;
-	border: 1px solid black;
-}
-
+.pagination li.active a,
 .pagination li.active a:hover,
 .pagination li.active a:active,
 .pagination li.active a:focus {
 	color: #333333;
 	background: #BBBBBB;
-	border: 1px solid white;
+	border: 1px solid black;
 }
 
 .pagination li.disabled a,
@@ -150,9 +146,58 @@ p{
 	color: #BBBBBB;
 	background: #333333;
 	border: 1px solid black;
+	cursor: default;
 }
 
 .sliderWrapper {
 	padding: 15px 15px;
 	margin-bottom: 10px;
+}
+
+/* property page */
+#propertyMain {
+	width: 80%;
+	margin: auto;
+}
+
+#propertyMain .imageWrapper {
+	width: 100%;
+}
+
+#propertyMain .imageWrapper img {
+	width: 100%;
+}
+
+#propertyMain .row {
+	margin-top: 50px;
+}
+
+#propertyMain .col-xs-12 {
+	margin-bottom: 15px;
+	word-wrap: break-word;
+}
+
+#propertyMain hr {
+	border: 1px solid black;
+}
+
+#propertyMain .commentSeparator {
+	border: 1px solid #BBBBBB;
+}
+
+#propertyMain #noReview {
+	color: #BBBBBB;
+}
+
+#propertyMain .form-control {
+	margin-bottom: 10px;
+}
+
+#propertyMain .field-big {
+	font-weight: bold;
+	font-size: 120%;
+}
+
+#propertyMain .field-small {
+	font-weight: bold;
 }

@@ -1,0 +1,78 @@
+{% include "header.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load myfilters %}
+<aside>
+	{% include "sidebar.html" %}
+</aside>
+
+<div id="propertyMain">
+	<div class="imageWrapper">
+		<img src="{% static 'img/demo.png' %}">
+	</div>
+
+	<div class="info row">
+		<div class="col-xs-2">
+			<span class="field-big">General Information</span>
+		</div>
+		<div class="col-xs-8">
+			<div class="col-xs-12">
+				<span class="field-small">Address: </span>{{ property.address }}
+			</div>
+			<div class="col-xs-12">
+				<span class="field-small">Size: </span>{{ property.size }}
+			</div>
+			<div class="col-xs-12">
+				<span class="field-small">Description: </span>{{ property.text }}
+			</div>
+		</div>
+		<div class="col-xs-2 text-right">
+			<button type="button" class="btn btn-primary">Contact Host</button>
+		</div>
+	</div>
+	<hr>
+	<div class="reviews row">
+		{% for review in reviews %}
+		<div class="col-xs-2">
+			{% for i in review.rating.text|get_range %}
+				<span class="glyphicon glyphicon-star"></span>
+			{% endfor %}
+			{% for i in 5|subtract:review.rating.text|get_range %}
+				<span class="glyphicon glyphicon-star-empty"></span>
+			{% endfor %}
+		</div>
+		<div class="col-xs-10">
+			<div class="col-xs-12">
+				<span class="field-small">{{ review.user }}:</span>
+			</div>
+			<div class="col-xs-12">
+				{{ review.text }}
+				{% if forloop.counter != reviews|length %}
+					<hr class="commentSeparator">
+				{% endif %}
+			</div>
+		</div>
+		{% endfor %}
+		{% if reviews|length == 0 %}
+		<div class="col-xs-12 text-center">
+			<span id="noReview">No review available for this property.</span>
+		</div>
+		{% endif %}
+	</div>
+	<hr>
+	<div class="post row">
+		<div class="col-xs-2">
+			<span class="field-big">Write your review</span>
+		</div>
+		<div class="col-xs-10">
+			<div class="col-xs-12 text-right">
+				<form action="" method="post">
+					<textarea class="form-control" rows="5" cols="50" placeholder="Please leave your comment..."></textarea>
+					<button class="btn btn-default" type="submit">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include "footer.html" %}

@@ -1,343 +1,82 @@
 {% include "header.html" %}
 {% load i18n %}
 {% load staticfiles %}
-		<aside>
-			{% include "sidebar.html" %}
-		</aside>
+{% load myfilters %}
+<aside>
+	{% include "sidebar.html" %}
+</aside>
 
-		<div class="main text-center">
-
-			<!-- DEMO CODE, should be deleted -->
-
+<div class="main text-center">
+	{% for property in properties %}
+		{% if forloop.counter0|divisibleby:4 %}
 			<div class="row">
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
+		{% endif %}
+		<div class="col-xs-6 col-md-3">
+			<div class="thumbnail">
+				<a href="property/{{ property.id }}"><img src="{% static 'img/demo.png' %}"></a>
+				<div class="caption-wrapper">
+					<div class="caption">
+						{{ property.title }}
+						<hr>
+						{{ property.text }}
+						<hr>
+						<button type="button" class="btn btn-primary">Contact Host</button>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3">
-					<div class="thumbnail">
-						<a href=""><img src="{% static 'img/demo.png' %}"></a>
-						<div class="caption-wrapper">
-							<div class="caption">
-								01 ABC ROAD, TORONTO, ON, M1C 1A1
-								<hr>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								<hr>
-								<button type="button" class="btn btn-primary">Contact Host</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- DEMO CODE ENDS HERE -->
-
-			<ul class="pagination">
-				<li><a href="">&laquo;</a></li>
-				<li class="active"><a href="">1</a></li>
-				<li><a href="">2</a></li>
-				<li><a href="">3</a></li>
-				<li><a href="">4</a></li>
-				<li><a href="">5</a></li>
-				<li class="disabled"><a href="">...</a></li>
-				<li><a href="">100</a></li>
-				<li><a href="">&raquo;</a></li>
-			</ul>
 		</div>
-	</div>
+		{% if forloop.counter|divisibleby:4 or forloop.counter == properties|length %}
+			</div>
+		{% endif %}
+	{% endfor %}
 
-	{% include "footer.html" %}
-</body>
-</html>
+	<ul class="pagination">
+		<li {% if current_page == 1 %} class="disabled" {% endif %}>
+			<a href="?p={{ current_page|subtract:1 }}">
+				<span class="glyphicon glyphicon-chevron-left">
+			</a>
+		</li>
+		{% if total_page_number <= 6 %}
+			{% for i in 6|get_range %}
+				{% if i < total_page_number %}
+					<li {% if current_page == i|add:1 %} class="active" {% endif %}>
+						<a href="?p={{ i|add:1 }}">{{ i|add:1 }}</a>
+					</li>
+				{% endif %}
+			{% endfor %}
+		{% elif current_page <= 4 %}
+			{% for i in 5|get_range %}
+				<li {% if current_page == i|add:1 %} class="active" {% endif %}>
+					<a href="?p={{ i|add:1 }}">{{ i|add:1 }}</a>
+				</li>
+			{% endfor %}
+			<li class="disabled"><a href="">...</a></li>
+			<li><a href="?p={{ total_page_number }}">{{ total_page_number }}</a></li>
+		{% elif current_page >= total_page_number|subtract:3 %}
+			<li><a href="?p=1">1</a></li>
+			<li class="disabled"><a href="">...</a></li>
+			{% for i in 5|get_range %}
+				<li {% if current_page == total_page_number|subtract:4|add:i %} class="active" {% endif %}>
+					<a href="?p={{ total_page_number|subtract:4|add:i }}">{{ total_page_number|subtract:4|add:i }}</a>
+				</li>
+			{% endfor %}
+		{% else %}
+			<li><a href="?p=1">1</a></li>
+			<li class="disabled"><a href="">...</a></li>
+			<li><a href="?p={{ current_page|subtract:2 }}">{{ current_page|subtract:2 }}</a></li>
+			<li><a href="?p={{ current_page|subtract:1 }}">{{ current_page|subtract:1 }}</a></li>
+			<li class="active"><a href="">{{ current_page }}</a></li>
+			<li><a href="?p={{ current_page|add:1 }}">{{ current_page|add:1 }}</a></li>
+			<li><a href="?p={{ current_page|add:2 }}">{{ current_page|add:2 }}</a></li>
+			<li class="disabled"><a href="">...</a></li>
+			<li><a href="?p={{ total_page_number }}">{{ total_page_number }}</a></li>
+		{% endif %}
+		<li {% if current_page == total_page_number %} class="disabled" {% endif %}>
+			<a href="?p={{ current_page|add:1 }}">
+				<span class="glyphicon glyphicon-chevron-right">
+			</a>
+		</li>
+	</ul>
+</div>
+
+{% include "footer.html" %}
