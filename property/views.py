@@ -91,8 +91,6 @@ def addProperty(request):
         size = request.POST.get("size", "")
         text = request.POST.get("text", "")
         user = request.POST.get("user", "")
-        print len(request.FILES)
-        print datetime.date.today()
         if (len(request.FILES) > 0):
             fType = request.FILES['my-file-selector'].name.split('.', 2)[1]
             # Files will be named like usernamejan02.jpg

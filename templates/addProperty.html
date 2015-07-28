@@ -2,6 +2,10 @@
 {% load staticfiles %}
 {% load i18n %}
 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+<script src="{% static "js/pValidate.js" %}"></script>
 
 <aside>
     <div id="sidebar">
@@ -56,5 +60,4 @@
         </div>
     </div>
 
-<script src="{% static "js/pValidate.js" %}"></script>
 {% include "footer.html" %}
