@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.db import connection
+from django.contrib.auth.decorators import login_required
 import os.path
 import datetime
 
@@ -74,6 +75,7 @@ def property(request, property_id):
 def search(request):
     return render(request, "search.html", {})
 
+@login_required
 def addProperty(request):
     if (request.user.is_authenticated()):
         user = request.user
@@ -96,9 +98,9 @@ def addProperty(request):
             # Files will be named like usernamejan02.jpg
             if (fType != ""):
                 fType = '.' + fType
-            handle_uploaded_file(request.FILES['my-file-selector'], 
-                                 user + 
-                                 str(datetime.datetime.now()).translate(None, " :") + 
+            handle_uploaded_file(request.FILES['my-file-selector'],
+                                 user +
+                                 str(datetime.datetime.now()).translate(None, " :") +
                                  fType)
         cursor = connection.cursor()
         cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
@@ -106,7 +108,7 @@ def addProperty(request):
         cursor.execute("INSERT INTO property_property (title, address, city, province, size, text, user_id, date_added) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                        [title, address, city, province, size, text, user_id, datetime.datetime.now()])
         return HttpResponseRedirect('/')
-    
+
 def handle_uploaded_file(f, name):
     destination = open(os.path.join(os.path.dirname(os.path.dirname(__file__)),'pub\\img\\' + name), 'wb+')
     for chunk in f.chunks():

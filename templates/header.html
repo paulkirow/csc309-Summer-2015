@@ -39,19 +39,19 @@
 				<div class="collapse navbar-collapse navbar-right">
 					<div class="navbar-text">
 						{% if user.is_authenticated %}
-						{% trans "Logged in" %}: {{ user.username }} 
-							(<a href="{% url 'auth_logout' %}?next=/">{% trans "Log out" %}</a> | 
+						{% trans "Logged in" %}: {{ user.username }}
+							(<a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a> |
 							<!--<a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>)-->
 						{% else %}
-							
-						   <a href="{% url 'auth_login' %}">{% trans "Log in" %}</a> 
+
+						   <a href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
 						   <div style="float:right;padding-left:10px;">
 						   <p id="notamember">Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
 						   </div>
-						   
+
 						{% endif %}
-					
-					
+
+
 						<!--<form method="post" action=".">
 						{% csrf_token %}
 						{{ form.as_p }}

@@ -2,21 +2,15 @@
 {% load staticfiles %}
 {% load i18n %}
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- Additional jQuery needed for form validation -->
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
-<script src="{% static "js/pValidate.js" %}"></script>
 
+<aside>
+    <div id="sidebar">
+        {% include "sidebar.html" %}
+    </div>
+</aside>
     <div class="container-fluid">
-        <aside>
-            <div id="sidebar">
-                {% include "sidebar.html" %}
-            </div>
-        </aside>
 
         <div class="main">
-		{% if user.is_authenticated %}
 			<form role="form" id="propertyform" method="post" enctype="multipart/form-data"> {% csrf_token %}
             	<div class="form-group">
                     <label for="title">Title for your posting:</label>
@@ -59,19 +53,8 @@
             	  }
             	});
             </script>
-		{% else %}
-			<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
-				{% csrf_token %}
-				<p><label for="id_username">Username:</label> <input id="id_username" type="text" name="username" maxlength="30" /></p>
-				<p><label for="id_password">Password:</label> <input type="password" name="password" id="id_password" /></p>
-
-				<input type="submit" value="Log in" />
-                <input type="hidden" name="next" value="{{ next }}" />
-			</form>
-		   
-		{% endif %}
-            
         </div>
     </div>
-    
-   {% include "footer.html" %}
+
+<script src="{% static "js/pValidate.js" %}"></script>
+{% include "footer.html" %}
