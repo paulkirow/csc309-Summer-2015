@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.db import connection
+from django.contrib.auth.decorators import login_required
 
 from .models import Property, Review
 
@@ -70,6 +71,7 @@ def property(request, property_id):
 def search(request):
     return render(request, "search.html", {})
 
+@login_required
 def addProperty(request):
     if (request.user.is_authenticated()):
         user = request.user
