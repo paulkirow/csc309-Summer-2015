@@ -41,7 +41,58 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'property',
     'registration',
+    'social_auth',
 )
+
+GOOGLE_OAUTH2_CLIENT_ID = '341758950059-5vsealt6tel45fg1ps3mfh1l5sv65b6l.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET = 'd-oHgSd8VOFbrkZXiH9cGjjQ'
+
+"""TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)"""
+
+"""# Used to redirect the user once the auth process ended successfully. The value of ?next=/foo is used if it was present
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/logged-in/'
+# URL where the user will be redirected in case of an error
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
+# Is used as a fallback for LOGIN_ERROR_URL
+SOCIAL_AUTH_LOGIN_URL = '/login-url/'
+# Used to redirect new registered users, will be used in place of SOCIAL_AUTH_LOGIN_REDIRECT_URL if defined.
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/new-users-redirect-url/'
+# Like SOCIAL_AUTH_NEW_USER_REDIRECT_URL but for new associated accounts (user is already logged in).
+SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/new-association-redirect-url/'
+# The user will be redirected to this URL when a social account is disconnected
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/account-disconnected-redirect-url/'
+# Inactive users can be redirected to this URL when trying to authenticate.
+SOCIAL_AUTH_INACTIVE_USER_URL = '/inactive-user/'
+
+SOCIAL_AUTH_USER_MODEL = 'django.contrib.auth.models.User'
+# Used to define the max length of the field uid.
+SOCIAL_AUTH_UID_LENGTH = 223
+# This controls the length of the UUID appended to usernames.
+SOCIAL_AUTH_UUID_LENGTH = 16
+# If you want to use the full email address as the username, define this setting.
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+# For those that prefer slugged usernames, the get_username pipeline can apply a slug transformation.
+SOCIAL_AUTH_SLUGIFY_USERNAMES = False
+# By default the regex r'[^\w.@+-_]+' is applied over usernames to clean them from usual undesired characters.
+SOCIAL_AUTH_CLEAN_USERNAMES = True"""
+
 
 REGISTRATION_OPEN = True                # If True, users can register
 ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
@@ -56,6 +107,11 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'zaincarson@gmail.com'
 EMAIL_HOST_PASSWORD = 'openyard12'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend'
+)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -126,3 +182,5 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_root")
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 SITE_ID = 1
+
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
