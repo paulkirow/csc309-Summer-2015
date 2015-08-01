@@ -7,7 +7,7 @@ import datetime
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-from .models import Property, Review
+from .models import Property, Review, Tag
 
 import math
 
@@ -43,17 +43,17 @@ def home(request):
 def property(request, property_id):
     username = "Register"
     if (request.user.is_authenticated()):
-        username = "%s" % (request.user)
+        user = "%s" % (request.user)
     context = {
-            "username":username,
+            "username":user,
     }
 
-    property = Property.objects.get(pk=property_id)
+    property = Property.objects.get(id=property_id)
     context["property"] = property
 
     #-- produce reviews for the current property
     #     display at most 10 reviews at a time
-
+    
     # get requested page, default to the first page
     page_number = int(request.GET.get('p', 1))
 
@@ -69,6 +69,25 @@ def property(request, property_id):
         Property.objects.order_by("-date_added").count() / 10.0
     ))
     context["total_page_number"] = total_page_number
+    
+    if request.method == 'POST':
+        review = request.POST.get("review", "")
+        rating = request.POST.get("starrating", "")
+        cursor = connection.cursor()
+        cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
+        user_id = cursor.fetchone()[0]
+        cursor.execute("SELECT id FROM property_property WHERE user_id = %s", [user_id])
+        propertyid = cursor.fetchone()[0]
+        cursor.execute("INSERT INTO property_rating (rated, property_id, user_id) VALUES (%s, %s, %s)",
+                    [rating, propertyid, user_id])
+        cursor.execute("SELECT id FROM property_rating WHERE user_id = %s", [user_id])
+        ratingid = cursor.fetchone()[0]
+        cursor.execute("INSERT INTO property_review (property_id, user_id, text, date_added, rating_id) VALUES (%s, %s, %s, %s, %s)",
+                    [propertyid, user_id, review, datetime.datetime.now(), ratingid])
+        
+       
+        return HttpResponseRedirect('/')
+
 
     return render(request, "property.html", context)
 

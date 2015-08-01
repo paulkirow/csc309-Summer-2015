@@ -17,7 +17,7 @@ class TagAdmin(admin.ModelAdmin):
         model = Tag
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ["property", "user", "text"]
+    list_display = ["property", "user", "rated"]
     class Meta:
         model = Rating
         
