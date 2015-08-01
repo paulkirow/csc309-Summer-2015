@@ -77,8 +77,7 @@ def search(request):
 
 @login_required
 def addProperty(request):
-    if (request.user.is_authenticated()):
-        user = request.user
+    user = request.user
 
     if request.method == 'GET':
         context = {'user': user}
