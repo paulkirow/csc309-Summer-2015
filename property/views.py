@@ -5,7 +5,7 @@ from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.models import User
-from property.models import Rating
+from property.models import *
 import os.path
 import datetime
 from pydoc import describe
@@ -148,15 +148,26 @@ def addProperty(request):
                 fType = '.' + fType
             # Store the uploaded file in the server
             handle_uploaded_file(request.FILES['my-file-selector'],
-                                 user +
+                                 user_name +
                                  str(datetime.datetime.now()).translate(None, " :") +
                                  fType)
         # Insert the records for the user's property into the database
-        cursor = connection.cursor()
-        cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
-        user_id = cursor.fetchone()[0]
-        cursor.execute("INSERT INTO property_property (title, address, city, province, size, text, user_id, date_added) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                       [title, address, city, province, size, text, user_id, datetime.datetime.now()])
+        user = User.objects.get(username = user_name)
+        property = Property(title = title, 
+                            address = address,
+                            city = city,
+                            province = province,
+                            size = size,
+                            text = text,
+                            user = user)
+        property.save()
+        #=======================================================================
+        # cursor = connection.cursor()
+        # cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
+        # user_id = cursor.fetchone()[0]
+        # cursor.execute("INSERT INTO property_property (title, address, city, province, size, text, user_id, date_added) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+        #                [title, address, city, province, size, text, user_id, datetime.datetime.now()])
+        #=======================================================================
         return HttpResponseRedirect('/')
 
 def handle_uploaded_file(f, name):
