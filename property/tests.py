@@ -87,7 +87,7 @@ class TestHomePage(TestCase):
             username='admin', email='admin@asdfasdf.com', password='123456')
 
     def test_home_page_with_multiple_properties(self):
-        # Add a single property to the database
+        # Add two properties to the database
         Property.objects.create(title='Mansion',
                                 address = '1000',
                                 city = 'Toronto',
@@ -111,6 +111,21 @@ class TestHomePage(TestCase):
         # There should only be 1 page overall
         self.assertEqual(response.context['current_page'], 1)
         self.assertEqual(response.context['total_page_number'], 1)
+        
+    def test_home_page_pagination(self):
+        # Try adding 18 properties, and check to see if there are 2 pages 
+        # that are accessible in the property listing pages
+        for i in range (1, 18):
+            Property.objects.create(title='Mansion' + str(i),
+                                address = '100' + str(i),
+                                city = 'Toronto',
+                                province = 'Ontario',
+                                size = '10000',
+                                text = 'Test',
+                                user = self.user)
+        c = Client()
+        response = c.get('/')
+        self.assertEqual(response.context['total_page_number'], 2)
 
     def tearDown(self):
         Property.objects.all().delete()
