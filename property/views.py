@@ -101,10 +101,15 @@ def search(request):
 def addProperty(request):
     user = request.user
 
+    # A GET request from the user/client means that the user is trying
+    # to access the form. So simply render the add property page in this case
     if request.method == 'GET':
         context = {'user': user}
         return render(request, "addProperty.html", context)
     else:
+        # A POST request was probably submitted (which only happens when a user
+        # submits a form, so get all of the information in the form 
+        # submitted by the user
         title = request.POST.get("title", "")
         address = request.POST.get("address", "")
         city = request.POST.get("city", "")
@@ -114,13 +119,15 @@ def addProperty(request):
         user = request.POST.get("user", "")
         if (len(request.FILES) > 0):
             fType = request.FILES['my-file-selector'].name.split('.', 2)[1]
-            # Files will be named like usernamejan02.jpg
+            # Files will be named like username2015-08-01201015.312000.png
             if (fType != ""):
                 fType = '.' + fType
+            # Store the uploaded file in the server
             handle_uploaded_file(request.FILES['my-file-selector'],
                                  user +
                                  str(datetime.datetime.now()).translate(None, " :") +
                                  fType)
+        # Insert the records for the user's property into the database
         cursor = connection.cursor()
         cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
         user_id = cursor.fetchone()[0]
@@ -129,6 +136,7 @@ def addProperty(request):
         return HttpResponseRedirect('/')
 
 def handle_uploaded_file(f, name):
+    # Divide the uploaded file into chunks, before uploading them onto the server
     destination = open(os.path.join(os.path.dirname(os.path.dirname(__file__)),'pub\\img\\' + name), 'wb+')
     for chunk in f.chunks():
         destination.write(chunk)
