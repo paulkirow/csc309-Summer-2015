@@ -12,8 +12,6 @@ from pydoc import describe
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-from .models import Property, Review, Tag, Rating
-
 import math
 
 def home(request):
@@ -48,16 +46,15 @@ def home(request):
 def property(request, property_id):
     username = "Register"
     if (request.user.is_authenticated()):
-        user = "%s" % (request.user)
+        username_cur = "%s" % (request.user)
         # A review is being added on a property
         if request.method == 'POST':
-            review = request.POST.get("review", "")
-            rating = request.POST.get("starrating", "")
-            user_obj = User.objects.filter(username=user)[0]
-            property_obj = Property.objects.filter(id=property_id)[0]
-            rating_obj = Rating.objects.filter(property=property_obj)[0]
-            Rating(rated=rating, property=property_obj,user=user_obj).save()
-            Review(user=user_obj, property=property_obj, text=review, rating=rating_obj).save()
+            review_new = request.POST.get("review", "")
+            rating_new = request.POST.get("starrating", "")
+            if rating_new == '': rating_new = 0
+            user_cur = User.objects.filter(username=username_cur)[0]
+            property_cur = Property.objects.filter(id=property_id)[0]
+            Review(user=user_cur, property=property_cur, text=review_new, rating=rating_new).save()
             return HttpResponseRedirect('/property/%s' % property_id)
             
     context = {
@@ -98,7 +95,7 @@ def searchproperty(request):
                                        | Q(city__contains=search_text)
                                        | Q(province_contains=search_text)
                                        | Q(size__gte="1",size__let="100"))
-                                        
+
     context["property"] = property
    
     
@@ -152,13 +149,6 @@ def addProperty(request):
                             text = text,
                             user = user)
         property.save()
-        #=======================================================================
-        # cursor = connection.cursor()
-        # cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
-        # user_id = cursor.fetchone()[0]
-        # cursor.execute("INSERT INTO property_property (title, address, city, province, size, text, user_id, date_added) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-        #                [title, address, city, province, size, text, user_id, datetime.datetime.now()])
-        #=======================================================================
         return HttpResponseRedirect('/')
 
 def handle_uploaded_file(f, name):
