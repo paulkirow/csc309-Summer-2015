@@ -41,22 +41,30 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'property',
     'registration',
+    'social_auth',
 )
+
+GOOGLE_OAUTH2_CLIENT_ID = '341758950059-5vsealt6tel45fg1ps3mfh1l5sv65b6l.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET = 'd-oHgSd8VOFbrkZXiH9cGjjQ'
 
 REGISTRATION_OPEN = True                # If True, users can register
 ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
 REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
 LOGIN_REDIRECT_URL = '/'  # The page you want users to arrive at after they successful log in
 LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not logged in,
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = 'mail.insurancecartoronto.ca'
+EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'zaincarson@gmail.com'
-EMAIL_HOST_PASSWORD = 'openyard12'
+EMAIL_HOST_USER = 'open@insurancecartoronto.ca'
+EMAIL_HOST_PASSWORD = 'openyard'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend'
+)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,7 +75,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-
 )
 
 ROOT_URLCONF = 'OpenYard.urls'
@@ -105,6 +112,9 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
+
+# Absolute path of the project root
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -125,3 +135,5 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_root")
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 SITE_ID = 1
+
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'

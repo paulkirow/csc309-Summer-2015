@@ -8,6 +8,17 @@
         </aside>
 
         <div class="main">
+        <h3>Search our Website</h3>
+        {% csrf_token %}
+        <input type="text" id="search" name="search" placeholder="Type Your Search Term | Then Press Enter" />
+        <ul id="search-results">
+        
+        </ul>
+        
+        
+        
+        
+        <!--
             <div class="form-group">
                 <label for="province">Province:</label>
                 <select class="form-control" id="province">
@@ -35,7 +46,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
-        </div>
+        </div>-->
     </div>
 	{% include "footer.html" %}
    
