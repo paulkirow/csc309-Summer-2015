@@ -3,7 +3,6 @@ from django.contrib import admin
 # Register your models here.
 from .models import Property
 from .models import Tag
-from .models import Rating
 from .models import Review
 
 class PropertyAdmin(admin.ModelAdmin):
@@ -16,11 +15,6 @@ class TagAdmin(admin.ModelAdmin):
     class Meta:
         model = Tag
 
-class RatingAdmin(admin.ModelAdmin):
-    list_display = ["property", "user", "text"]
-    class Meta:
-        model = Rating
-        
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ["property", "user", "text"]
     class Meta:
@@ -28,5 +22,4 @@ class ReviewAdmin(admin.ModelAdmin):
 
 admin.site.register(Property, PropertyAdmin)
 admin.site.register(Tag, TagAdmin)
-admin.site.register(Rating, RatingAdmin)
 admin.site.register(Review, ReviewAdmin)

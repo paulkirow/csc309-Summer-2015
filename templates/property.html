@@ -34,10 +34,10 @@
 	<div class="reviews row">
 		{% for review in reviews %}
 		<div class="col-xs-2">
-			{% for i in review.rating.text|get_range %}
+			{% for i in review.rating|get_range %}
 				<span class="glyphicon glyphicon-star"></span>
 			{% endfor %}
-			{% for i in 5|subtract:review.rating.text|get_range %}
+			{% for i in 5|subtract:review.rating|get_range %}
 				<span class="glyphicon glyphicon-star-empty"></span>
 			{% endfor %}
 		</div>

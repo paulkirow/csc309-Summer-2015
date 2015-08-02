@@ -22,6 +22,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^$', 'property.views.home', name='home'),
     url(r'^property/', include('property.urls', namespace="property")),
+    url(r'^profile/', include('userprofile.urls', namespace="profile")),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^search', 'property.views.search', name='search'),
