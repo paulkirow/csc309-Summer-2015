@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.db import connection
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from property.models import Property
 import os.path
 import datetime
 
@@ -116,23 +118,34 @@ def addProperty(request):
         province = request.POST.get("province", "")
         size = request.POST.get("size", "")
         text = request.POST.get("text", "")
-        user = request.POST.get("user", "")
+        user_name = request.POST.get("user", "")
         if (len(request.FILES) > 0):
-            fType = request.FILES['my-file-selector'].name.split('.', 2)[1]
+            fType = request.FILES['my-file-selector'].name.split('.', 1)[1]
             # Files will be named like username2015-08-01201015.312000.png
             if (fType != ""):
                 fType = '.' + fType
             # Store the uploaded file in the server
             handle_uploaded_file(request.FILES['my-file-selector'],
-                                 user +
+                                 user_name +
                                  str(datetime.datetime.now()).translate(None, " :") +
                                  fType)
         # Insert the records for the user's property into the database
-        cursor = connection.cursor()
-        cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
-        user_id = cursor.fetchone()[0]
-        cursor.execute("INSERT INTO property_property (title, address, city, province, size, text, user_id, date_added) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                       [title, address, city, province, size, text, user_id, datetime.datetime.now()])
+        user = User.objects.get(username = user_name)
+        property = Property(title = title, 
+                            address = address,
+                            city = city,
+                            province = province,
+                            size = size,
+                            text = text,
+                            user = user)
+        property.save()
+        #=======================================================================
+        # cursor = connection.cursor()
+        # cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
+        # user_id = cursor.fetchone()[0]
+        # cursor.execute("INSERT INTO property_property (title, address, city, province, size, text, user_id, date_added) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+        #                [title, address, city, province, size, text, user_id, datetime.datetime.now()])
+        #=======================================================================
         return HttpResponseRedirect('/')
 
 def handle_uploaded_file(f, name):
