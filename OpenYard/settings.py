@@ -53,12 +53,12 @@ REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged
 LOGIN_REDIRECT_URL = '/'  # The page you want users to arrive at after they successful log in
 LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not logged in,
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = 'mail.insurancecartoronto.ca'
+EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'zaincarson@gmail.com'
-EMAIL_HOST_PASSWORD = 'openyard12'
+EMAIL_HOST_USER = 'open@insurancecartoronto.ca'
+EMAIL_HOST_PASSWORD = 'openyard'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 AUTHENTICATION_BACKENDS = (
