@@ -28,4 +28,5 @@ class Review(models.Model):
     rating = models.ForeignKey(Rating)
     text = models.CharField(max_length=500)
     date_added = models.DateTimeField(auto_now=True)
+    
 

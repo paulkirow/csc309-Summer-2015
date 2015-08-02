@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.db import connection
+from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 import os.path
 import datetime
+from pydoc import describe
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
@@ -52,7 +55,7 @@ def property(request, property_id):
             user_id = cursor.fetchone()[0]
             cursor.execute("INSERT INTO property_rating (rated, property_id, user_id) VALUES (%s, %s, %s)",
                         [rating, property_id, user_id])
-            cursor.execute("SELECT id FROM property_rating WHERE user_id = %s", [user_id])
+            cursor.execute("SELECT id FROM property_rating WHERE property_id = %s", [property_id])
             ratingid = cursor.fetchone()[0]
             cursor.execute("INSERT INTO property_review (property_id, user_id, text, date_added, rating_id) VALUES (%s, %s, %s, %s, %s)",
                         [property_id, user_id, review, datetime.datetime.now(), ratingid])
@@ -78,9 +81,7 @@ def property(request, property_id):
     start = (page_number - 1) * 10
     end   = page_number * 10 - 1
     reviews = Review.objects.filter(property=property_id).order_by("-date_added")[start:end + 1]
-    ratings = Rating.objects.filter(property=property_id).order_by("-date_added")[start:end + 1]
     context["reviews"] = reviews
-    context["rating"] = ratings
 
     # page information
     context["current_page"] = page_number
@@ -93,9 +94,31 @@ def property(request, property_id):
 
 
     return render(request, "property.html", context)
+def searchproperty(request):
+    
+    if request.method == "POST":
+        search_text = request.POST('search_text')
+    else:
+        search_text = ''
+    
+    property = Property.objects.filter(Q(title__contains=search_text) 
+                                       | Q(text_contains=search_text)
+                                       | Q(city__contains=search_text)
+                                       | Q(province_contains=search_text)
+                                       | Q(size__gte="1",size__let="100"))
+                                        
+    context["property"] = property
+   
+    
+    return render(request, "search_results.html", context)
 
 def search(request):
-    return render(request, "search.html", {})
+    
+    context = {}
+    context.update(csrf(request))
+    context['property'] = Property.objects.all()
+    
+    return render(request, "search.html", context)
 
 @login_required
 def addProperty(request):

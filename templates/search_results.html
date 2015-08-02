@@ -1,0 +1,12 @@
+{% if property.count > 0 %}
+
+	{% for sglprty in property %}
+		<li>{{ sglprty.title }}</li>
+	{% endfor %}
+
+{% else %}
+
+	<li> No Results! Try another search term</li>
+
+{% endif %}
+
