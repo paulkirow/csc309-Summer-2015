@@ -129,3 +129,34 @@ class TestHomePage(TestCase):
 
     def tearDown(self):
         Property.objects.all().delete()
+        
+def TestProperty(TestCase):
+    
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            username='admin', email='admin@asdfasdf.com', password='123456')
+    
+    def test_property(self):
+        # Test to see if the property view outputs the correct context
+        # when a single property is added to the database
+        Property.objects.create(title='OpenYard',
+                                address = '50',
+                                city = 'Toronto',
+                                province = 'Ontario',
+                                size = '10000',
+                                text = 'Test',
+                                user = self.user)
+        property = Property.objects.get(title='OpenYard')
+        self.assertNotEqual(property, None)
+        id = property.id
+        c = Client()
+        response = c.get('/property/' + str(id) + '/')
+        self.assertEqual(response.context['property'].address, '50')
+        self.assertEqual(response.context['property'].size, '10000')
+        self.assertEqual(response.context['property'].text, 'Test')
+        
+    def tearDown(self):
+        Property.objects.all().delete()
+        
+    
