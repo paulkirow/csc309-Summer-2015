@@ -4,6 +4,8 @@ from django.db import connection
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.contrib.auth.models import User
+from property.models import Rating
 import os.path
 import datetime
 from pydoc import describe
@@ -51,12 +53,11 @@ def property(request, property_id):
             review = request.POST.get("review", "")
             rating = request.POST.get("starrating", "")
             cursor = connection.cursor()
-            cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
-            user_id = cursor.fetchone()[0]
-            cursor.execute("INSERT INTO property_rating (rated, property_id, user_id) VALUES (%s, %s, %s)",
-                        [rating, property_id, user_id])
-            cursor.execute("SELECT id FROM property_rating WHERE property_id = %s", [property_id])
-            ratingid = cursor.fetchone()[0]
+            user_id = User.objects.filter(username=user).values_list('id', flat=True)[0]
+            user_obj = User.objects.filter(username=user)[0]
+            property_obj = Property.objects.filter(id=property_id)[0]
+            Rating(rated=rating, property=property_obj,user=user_obj).save()
+            ratingid = Rating.objects.filter(property=property_obj).values_list('id', flat=True)[0]
             cursor.execute("INSERT INTO property_review (property_id, user_id, text, date_added, rating_id) VALUES (%s, %s, %s, %s, %s)",
                         [property_id, user_id, review, datetime.datetime.now(), ratingid])
             

@@ -40,31 +40,9 @@
 				<span class="field-small">{{ review.user }}: 
 				<div style="float:right;"/>
 				
-				{% if review.rating.rated == 1 %}
-				<i class="fa fa-star" data-value="1"></i>
-				{% endif %}
-				{% if review.rating.rated == 2 %}
-				<i class="fa fa-star" data-value="1"></i>
-				<i class="fa fa-star" data-value="1"></i>
-				{% endif %}
-				{% if review.rating.rated == 3 %}
-				<i class="fa fa-star" data-value="1"></i>
-				<i class="fa fa-star" data-value="1"></i>
-				<i class="fa fa-star" data-value="1"></i>
-				{% endif %}
-				{% if review.rating.rated == 4 %}
-				<i class="fa fa-star" data-value="1"></i>
-				<i class="fa fa-star" data-value="1"></i>
-				<i class="fa fa-star" data-value="1"></i>
-				<i class="fa fa-star" data-value="1"></i>
-				{% endif %}
-				{% if review.rating.rated == 5 %}
-				<i class="fa fa-star" data-value="1"></i>
-				<i class="fa fa-star" data-value="1"></i>
-				<i class="fa fa-star" data-value="1"></i>
-				<i class="fa fa-star" data-value="1"></i>
-				<i class="fa fa-star" data-value="1"></i>
-				{% endif %}
+				{% for i in review.rating.rated|get_range %}
+				    <i class="fa fa-star" data-value="1"></i>
+                {% endfor %}
 				</div>
 				</span>
 			</div>
