@@ -22,7 +22,7 @@ class TestAddProperty(TestCase):
                                      'address' : '1000 Military Drive',
                                      'city' : 'Toronto',
                                      'province' : 'Ontario',
-                                     'size' : '10000.0',
+                                     'size' : 10000,
                                      'text' : 'Test',
                                      'user' : 'admin'})
         request.user = self.user
@@ -54,7 +54,7 @@ class TestAddProperty(TestCase):
                             'address' : '1000 Military Drive',
                             'city' : 'Toronto',
                             'province' : 'Ontario',
-                            'size' : '10000.0',
+                            'size' : 10000,
                             'text' : 'Test',
                             'user' : 'admin'})
         result = re.match(r'^http:\/\/[a-z]*\/$', response.url)
@@ -71,7 +71,7 @@ class TestAddProperty(TestCase):
                             'address' : '1000 Military Drive',
                             'city' : 'Toronto',
                             'province' : 'Ontario',
-                            'size' : '10000.0',
+                            'size' : 10000,
                             'text' : '\'\', 1, \'31-07-2015\'); DROP TABLE property_property; select ',
                             'user' : 'admin'})
         # Check to see if the property table still exists after the
@@ -87,19 +87,19 @@ class TestHomePage(TestCase):
             username='admin', email='admin@asdfasdf.com', password='123456')
 
     def test_home_page_with_multiple_properties(self):
-        # Add a single property to the database
+        # Add two properties to the database
         Property.objects.create(title='Mansion',
                                 address = '1000',
                                 city = 'Toronto',
                                 province = 'Ontario',
-                                size = '10000',
+                                size = 10000,
                                 text = 'Test',
                                 user = self.user)
         Property.objects.create(title='Mansion 2',
                                 address = '1100',
                                 city = 'Toronto',
                                 province = 'Ontario',
-                                size = '10000',
+                                size = 10000,
                                 text = 'Test',
                                 user = self.user)
         c = Client()
@@ -111,6 +111,52 @@ class TestHomePage(TestCase):
         # There should only be 1 page overall
         self.assertEqual(response.context['current_page'], 1)
         self.assertEqual(response.context['total_page_number'], 1)
+        
+    def test_home_page_pagination(self):
+        # Try adding 18 properties, and check to see if there are 2 pages 
+        # that are accessible in the property listing pages
+        for i in range (1, 18):
+            Property.objects.create(title='Mansion' + str(i),
+                                address = '100' + str(i),
+                                city = 'Toronto',
+                                province = 'Ontario',
+                                size = 10000,
+                                text = 'Test',
+                                user = self.user)
+        c = Client()
+        response = c.get('/')
+        self.assertEqual(response.context['total_page_number'], 2)
 
     def tearDown(self):
         Property.objects.all().delete()
+        
+def TestProperty(TestCase):
+    
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            username='admin', email='admin@asdfasdf.com', password='123456')
+    
+    def test_property(self):
+        # Test to see if the property view outputs the correct context
+        # when a single property is added to the database
+        Property.objects.create(title='OpenYard',
+                                address = '50',
+                                city = 'Toronto',
+                                province = 'Ontario',
+                                size = 10000,
+                                text = 'Test',
+                                user = self.user)
+        property = Property.objects.get(title='OpenYard')
+        self.assertNotEqual(property, None)
+        id = property.id
+        c = Client()
+        response = c.get('/property/' + str(id) + '/')
+        self.assertEqual(response.context['property'].address, '50')
+        self.assertEqual(response.context['property'].size, '10000')
+        self.assertEqual(response.context['property'].text, 'Test')
+        
+    def tearDown(self):
+        Property.objects.all().delete()
+        
+    

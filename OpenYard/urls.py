@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^search', 'property.views.search', name='search'),
+    url(r'^search-results', 'property.views.searchproperty', name='searchproperty'),
     url(r'^addProperty', 'property.views.addProperty', name='addProperty'),
     url('', include('social_auth.urls')),
 ]
