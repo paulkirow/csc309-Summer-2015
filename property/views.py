@@ -49,21 +49,15 @@ def property(request, property_id):
     username = "Register"
     if (request.user.is_authenticated()):
         user = "%s" % (request.user)
+        # A review is being added on a property
         if request.method == 'POST':
             review = request.POST.get("review", "")
             rating = request.POST.get("starrating", "")
-            cursor = connection.cursor()
-            user_id = User.objects.filter(username=user).values_list('id', flat=True)[0]
             user_obj = User.objects.filter(username=user)[0]
             property_obj = Property.objects.filter(id=property_id)[0]
+            rating_obj = Rating.objects.filter(property=property_obj)[0]
             Rating(rated=rating, property=property_obj,user=user_obj).save()
-            ratingid = Rating.objects.filter(property=property_obj).values_list('id', flat=True)[0]
-            cursor.execute("INSERT INTO property_review (property_id, user_id, text, date_added, rating_id) VALUES (%s, %s, %s, %s, %s)",
-                        [property_id, user_id, review, datetime.datetime.now(), ratingid])
-            
-            context = {
-                    "username":user,
-            }
+            Review(user=user_obj, property=property_obj, text=review, rating=rating_obj).save()
             return HttpResponseRedirect('/property/%s' % property_id)
             
     context = {
@@ -90,11 +84,8 @@ def property(request, property_id):
         Property.objects.order_by("-date_added").count() / 10.0
     ))
     context["total_page_number"] = total_page_number
-    
-    
-
-
     return render(request, "property.html", context)
+
 def searchproperty(request):
     
     if request.method == "POST":
@@ -153,7 +144,7 @@ def addProperty(request):
                                  fType)
         # Insert the records for the user's property into the database
         user = User.objects.get(username = user_name)
-        property = Property(title = title, 
+        property = Property(title = title,
                             address = address,
                             city = city,
                             province = province,
