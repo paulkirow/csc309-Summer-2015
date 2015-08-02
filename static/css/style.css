@@ -242,3 +242,16 @@ p{
        height: 100%;
        background-color: #EEEEEE;
 }
+
+#profileMain .row {
+	margin-top: 50px;
+}
+
+#profileMain .col-xs-12 {
+	margin-bottom: 15px;
+	word-wrap: break-word;
+}
+
+#profileMain .field-small {
+	font-weight: bold;
+}
