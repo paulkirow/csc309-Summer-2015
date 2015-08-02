@@ -22,7 +22,7 @@ class TestAddProperty(TestCase):
                                      'address' : '1000 Military Drive',
                                      'city' : 'Toronto',
                                      'province' : 'Ontario',
-                                     'size' : '10000.0',
+                                     'size' : 10000,
                                      'text' : 'Test',
                                      'user' : 'admin'})
         request.user = self.user
@@ -54,7 +54,7 @@ class TestAddProperty(TestCase):
                             'address' : '1000 Military Drive',
                             'city' : 'Toronto',
                             'province' : 'Ontario',
-                            'size' : '10000.0',
+                            'size' : 10000,
                             'text' : 'Test',
                             'user' : 'admin'})
         result = re.match(r'^http:\/\/[a-z]*\/$', response.url)
@@ -71,7 +71,7 @@ class TestAddProperty(TestCase):
                             'address' : '1000 Military Drive',
                             'city' : 'Toronto',
                             'province' : 'Ontario',
-                            'size' : '10000.0',
+                            'size' : 10000,
                             'text' : '\'\', 1, \'31-07-2015\'); DROP TABLE property_property; select ',
                             'user' : 'admin'})
         # Check to see if the property table still exists after the
@@ -92,14 +92,14 @@ class TestHomePage(TestCase):
                                 address = '1000',
                                 city = 'Toronto',
                                 province = 'Ontario',
-                                size = '10000',
+                                size = 10000,
                                 text = 'Test',
                                 user = self.user)
         Property.objects.create(title='Mansion 2',
                                 address = '1100',
                                 city = 'Toronto',
                                 province = 'Ontario',
-                                size = '10000',
+                                size = 10000,
                                 text = 'Test',
                                 user = self.user)
         c = Client()
@@ -120,7 +120,7 @@ class TestHomePage(TestCase):
                                 address = '100' + str(i),
                                 city = 'Toronto',
                                 province = 'Ontario',
-                                size = '10000',
+                                size = 10000,
                                 text = 'Test',
                                 user = self.user)
         c = Client()
@@ -144,7 +144,7 @@ def TestProperty(TestCase):
                                 address = '50',
                                 city = 'Toronto',
                                 province = 'Ontario',
-                                size = '10000',
+                                size = 10000,
                                 text = 'Test',
                                 user = self.user)
         property = Property.objects.get(title='OpenYard')
