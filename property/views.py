@@ -50,14 +50,12 @@ def property(request, property_id):
             cursor = connection.cursor()
             cursor.execute("SELECT id FROM auth_user WHERE username = %s", [user])
             user_id = cursor.fetchone()[0]
-            cursor.execute("SELECT id FROM property_property WHERE user_id = %s", [user_id])
-            propertyid = cursor.fetchone()[0]
             cursor.execute("INSERT INTO property_rating (rated, property_id, user_id) VALUES (%s, %s, %s)",
-                        [rating, propertyid, user_id])
+                        [rating, property_id, user_id])
             cursor.execute("SELECT id FROM property_rating WHERE user_id = %s", [user_id])
             ratingid = cursor.fetchone()[0]
             cursor.execute("INSERT INTO property_review (property_id, user_id, text, date_added, rating_id) VALUES (%s, %s, %s, %s, %s)",
-                        [propertyid, user_id, review, datetime.datetime.now(), ratingid])
+                        [property_id, user_id, review, datetime.datetime.now(), ratingid])
             
             context = {
                     "username":user,
