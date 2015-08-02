@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^search', 'property.views.search', name='search'),
     url(r'^addProperty', 'property.views.addProperty', name='addProperty'),
+    url('', include('social_auth.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
