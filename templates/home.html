@@ -13,7 +13,12 @@
 		{% endif %}
 		<div class="col-xs-6 col-md-3">
 			<div class="thumbnail">
-				<a href="property/{{ property.id }}"><img src="{% static 'img/demo.png' %}"></a>
+				<a href="property/{{ property.id }}">
+				{% if not property.image_name|length %}
+					<img src="{% static 'img/demo.png' %}"></a>
+				{% else %}
+					<img src="{% static 'pub/img/' %}{{ property.image_name }}">
+				{% endif %}
 				<div class="caption-wrapper">
 					<div class="caption">
 						{{ property.title }}

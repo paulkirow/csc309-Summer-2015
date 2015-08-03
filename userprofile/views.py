@@ -1,18 +1,27 @@
 from django.shortcuts import render
 
 from property.models import Property, Review
+<<<<<<< HEAD
 from django.core.paginator import Paginator
+=======
+from django.contrib.auth.models import User
+
+>>>>>>> origin/master
 
 def profile(request, userid):
 
     context = {}
 
-    properties = Property.objects.filter(user__id=userid)
+    user = User.objects.get(pk=userid)
+    context["username"] = user
+
+    properties = Property.objects.filter(user__id=userid).order_by("-date_added")
     context["properties"] = properties
 
     reviews = Review.objects.filter(user__id=userid)
     context["reviews"] = reviews
 
+<<<<<<< HEAD
     paginator = Paginator(reviews, 5)
 
     try:
@@ -27,8 +36,14 @@ def profile(request, userid):
 
 
     reviews = Review.objects.filter(property__user__id=userid)
+=======
+    reviews = Review.objects.filter(property__user__id=userid).order_by("-date_added")
+>>>>>>> origin/master
     valid_ratings = [review.rating for review in reviews if review.rating]
-    avg_rating = float(sum(valid_ratings)) / len(valid_ratings)
+    if len(valid_ratings) > 0:
+        avg_rating = float(sum(valid_ratings)) / len(valid_ratings)
+    else:
+        avg_rating = 0
     context["avg_rating"] = avg_rating
     context["posts"] = posts
     return render(request, "profile.html", context)
