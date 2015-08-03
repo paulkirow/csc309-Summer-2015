@@ -63,6 +63,8 @@ def property(request, property_id):
             }
     property = Property.objects.get(id=property_id)
     context["property"] = property
+    owner_email = User.objects.get(pk=property.user.id).email
+    context["owner_email"] = owner_email
 
     #-- produce reviews for the current property
     #     display at most 10 reviews at a time
@@ -198,7 +200,7 @@ def addProperty(request):
         property.save()
         return HttpResponseRedirect('/')
 
-def handle_uploaded_file(f, name):  
+def handle_uploaded_file(f, name):
     # Divide the uploaded file into chunks, before uploading them onto the server
     destination = open(os.path.join(settings.USERIMG_DIR, name), 'wb+')
     for chunk in f.chunks():
