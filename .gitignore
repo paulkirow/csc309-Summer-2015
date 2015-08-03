@@ -5,3 +5,5 @@
 .pydevproject
 
 db.sqlite3
+property/migrations/
+!property/migrations/__init__.py
