@@ -27,19 +27,12 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Rating',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('text', models.IntegerField(default=0)),
-                ('property', models.ForeignKey(to='property.Property')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
-        migrations.CreateModel(
             name='Review',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('rating', models.IntegerField()),
                 ('text', models.CharField(max_length=500)),
+                ('date_added', models.DateTimeField(auto_now=True)),
                 ('property', models.ForeignKey(to='property.Property')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],

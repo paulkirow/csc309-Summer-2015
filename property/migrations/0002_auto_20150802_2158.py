@@ -7,12 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('property', '0004_auto_20150727_2052'),
+        ('property', '0001_initial'),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='review',
-            name='rating',
+        migrations.AlterField(
+            model_name='property',
+            name='date_added',
+            field=models.DateTimeField(),
         ),
     ]
