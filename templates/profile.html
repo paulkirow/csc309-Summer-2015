@@ -8,7 +8,7 @@
 
 <div class="container-fluid" id="profileMain">
 	<div class="info text-center">
-		<p>{{ user.username }}</p>
+		<p>{{ username }}</p>
 		{% for i in avg_rating|floatformat:"0"|get_range %}
 			<span class="glyphicon glyphicon-star"></span>
 		{% endfor %}
