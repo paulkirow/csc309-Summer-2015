@@ -52,7 +52,8 @@
 			{% endfor %}
 		</div>
 		<div id="reviews" class="tab-pane fade">
-			{% for review in reviews %}
+		{% if posts %}
+			{% for review in reviews.object_list %}
 			<div class="row">
 				<div class="col-xs-3">
 					<a href="/property/{{ review.property.id }}">
@@ -74,6 +75,24 @@
 				</div>
 			</div>
 			{% endfor %}
+			<div class="pagination">
+		      <ul>
+		          {% if posts.has_previous %}
+		              <li><a href="?userprofilereview={{ posts.previous_page_number }}">Previous</a></li>
+		          {% endif %}
+		          {% for pg in posts.paginator.page_range %}
+		              {% if posts.number == pg %}
+		                  <li class="active"><a href="?userprofilereview={{ pg }}">{{ pg }}</a></li>
+		              {% else %}
+		                  <li><a href="?userprofilereview={{ pg }}">{{ pg }}</a></li>
+		              {% endif %}
+		          {% endfor %}
+		          {% if posts.has_next %}
+		              <li><a href="?userprofilereview={{ posts.next_page_number }}">Next</a></li>
+		          {% endif %}
+		      </ul>
+    </div>
+{% endif %}
 		</div>
 	</div>
 </div>

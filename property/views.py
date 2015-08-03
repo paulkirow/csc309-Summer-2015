@@ -13,6 +13,7 @@ import datetime
 from pydoc import describe
 from django.core.serializers import json
 import json
+from django.core.paginator import Paginator
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 import math
@@ -86,30 +87,10 @@ def property(request, property_id):
     context["total_page_number"] = total_page_number
     return render(request, "property.html", context)
 
-
 def search(request):
 
-    if request.method == 'POST':
-        post_text = request.POST.get('the_post')
-        response_data = {}
     
-        post = Property(title=post_text)
-        post.save()
-    
-        response_data['result'] = 'Create post successful!'
-        response_data['text'] = post.text
-        
-        return HttpResponse(
-            json.dumps(response_data),
-            content_type="application/json"
-        )
-    else:
-        return HttpResponse(
-            json.dumps({"nothing to see": "this isn't happening"}),
-            content_type="application/json"
-        )
-    
-        
+    return render(request, "search.html", {})   
    
 @login_required
 def addProperty(request):
