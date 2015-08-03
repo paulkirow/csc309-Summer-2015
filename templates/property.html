@@ -13,7 +13,13 @@
 
 	<div class="info row">
 		<div class="col-xs-2">
-			<span class="field-big">General Information</span>
+            <div class="col-xs-12">
+				<span class="field-big">{{ property.title }}</span>
+			</div>
+			<div class="col-xs-12">
+				<span class="field-big">Owner: <a href="/profile/{{ property.user.id }}">{{ property.user.username }}</a></span>
+			</div>
+
 		</div>
 		<div class="col-xs-8">
 			<div class="col-xs-12">
