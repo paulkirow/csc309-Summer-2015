@@ -139,4 +139,4 @@ SITE_ID = 1
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
 # Directory where user uploaded images are stored
-USERIMG_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'pub', 'img')
+USERIMG_DIR = os.path.join(os.path.dirname(BASE_DIR), 'pub', 'img')
