@@ -15,7 +15,10 @@ def profile(request, userid):
 
     reviews = Review.objects.filter(property__user__id=userid)
     valid_ratings = [review.rating for review in reviews if review.rating]
-    avg_rating = float(sum(valid_ratings)) / len(valid_ratings)
+    if len(valid_ratings) > 0:
+        avg_rating = float(sum(valid_ratings)) / len(valid_ratings)
+    else:
+        avg_rating = 0
     context["avg_rating"] = avg_rating
 
     return render(request, "profile.html", context)
