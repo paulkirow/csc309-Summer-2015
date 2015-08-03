@@ -130,16 +130,16 @@ def addProperty(request):
         text = request.POST.get("text", "")
         user_name = request.POST.get("user", "")
         image_upload_time = datetime.datetime.now()
+        image_name = ''
         if (len(request.FILES) > 0):
             fType = request.FILES['my-file-selector'].name.split('.', 2)[1]
             # Files will be named like username2015-08-01201015.312000.png
             if (fType != ""):
                 fType = '.' + fType
+            image_name = user_name + str(image_upload_time).translate(None, " :") + fType
             # Store the uploaded file in the server
             handle_uploaded_file(request.FILES['my-file-selector'],
-                                 user_name +
-                                 str(image_upload_time).translate(None, " :") +
-                                 fType)
+                                 image_name)
         # Insert the records for the user's property into the database
         user = User.objects.get(username = user_name)
         property = Property(title = title,
@@ -149,9 +149,7 @@ def addProperty(request):
                             size = size,
                             text = text,
                             user = user,
-                            image_name = (user_name +
-                                 str(image_upload_time).translate(None, " :") +
-                                 fType))
+                            image_name = image_name)
         property.save()
         return HttpResponseRedirect('/')
 
