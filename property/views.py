@@ -7,15 +7,11 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.models import User
 from property.models import *
-from OpenYard import settings
-import os.path
-import datetime
+import os.path, datetime, math, re
 from pydoc import describe
 from django.core.serializers import json
 import json
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-
-import math
 
 def home(request):
     username = "Register"
@@ -86,8 +82,7 @@ def property(request, property_id):
     context["total_page_number"] = total_page_number
     return render(request, "property.html", context)
 
-
-def search(request):
+"""def search(request):
 
     if request.method == 'POST':
         post_text = request.POST.get('the_post')
@@ -107,10 +102,52 @@ def search(request):
         return HttpResponse(
             json.dumps({"nothing to see": "this isn't happening"}),
             content_type="application/json"
-        )
-    
-        
-   
+        )"""
+def search(request):
+    query_string = ''
+    found_entries = None
+    if ('search' in request.GET) and request.GET['search'].strip():
+        query_string = request.GET['search']
+
+        entry_query = get_query(query_string, ['title', 'text', ])
+
+        found_entries = Property.objects.filter(entry_query).order_by('-date_added')
+    context = {"query_string": query_string, "found_entries": found_entries}
+    return render(request, 'search.html', context)
+
+def normalize_query(query_string,
+                    findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
+                    normspace=re.compile(r'\s{2,}').sub):
+    ''' Splits the query string in invidual keywords, getting rid of unecessary spaces
+        and grouping quoted words together.
+        Example:
+        >>> normalize_query('  some random  words "with   quotes  " and   spaces')
+        ['some', 'random', 'words', 'with quotes', 'and', 'spaces']
+        Reference: http://julienphalip.com/post/2825034077/adding-search-to-a-django-site-in-a-snap
+    '''
+    return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
+
+def get_query(query_string, search_fields):
+    ''' Returns a query, that is a combination of Q objects. That combination
+        aims to search keywords within a model by testing the given search fields.
+        Reference: http://julienphalip.com/post/2825034077/adding-search-to-a-django-site-in-a-snap
+    '''
+    query = None # Query to search for every search term
+    terms = normalize_query(query_string)
+    for term in terms:
+        or_query = None # Query to search for a given term in each field
+        for field_name in search_fields:
+            q = Q(**{"%s__icontains" % field_name: term})
+            if or_query is None:
+                or_query = q
+            else:
+                or_query = or_query | q
+        if query is None:
+            query = or_query
+        else:
+            query = query & or_query
+    return query
+
 @login_required
 def addProperty(request):
     user = request.user
