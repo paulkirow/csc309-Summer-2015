@@ -8,16 +8,30 @@
         </aside>
 
         <div class="main">
+        
         <h3>Search our Website</h3>
-        {% csrf_token %}
-        <input type="text" id="search" name="search" placeholder="Type Your Search Term | Then Press Enter" />
-        <ul id="search-results">
-        
+        <form role="form" id="searchform" method="POST"> {% csrf_token %} 
+        	<div class="form-group">
+	        	<input type="text" class="form-control" id="search" name="search" placeholder="Type Your Search Term" />
+	        </div>
+	        <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+ 		 <div id="results"></div>
+		
+		<ul id="talk">
+		
+		<li></li>
+		
+		</ul>
+		<ul id="talk">
+            {% for post in property %}
+                <li>
+                    <strong>{{ post.title }}</strong> -
+                   
+                </li>
+            {% endfor %}
         </ul>
-        
-        
-        
-        
+		
         <!--
             <div class="form-group">
                 <label for="province">Province:</label>

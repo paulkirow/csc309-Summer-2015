@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponse
 from django.db import connection
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
@@ -10,7 +11,8 @@ from OpenYard import settings
 import os.path
 import datetime
 from pydoc import describe
-
+from django.core.serializers import json
+import json
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 import math
@@ -84,32 +86,31 @@ def property(request, property_id):
     context["total_page_number"] = total_page_number
     return render(request, "property.html", context)
 
-def searchproperty(request):
-    
-    if request.method == "POST":
-        search_text = request.POST('search_text')
-    else:
-        search_text = ''
-    
-    property = Property.objects.filter(Q(title__contains=search_text) 
-                                       | Q(text_contains=search_text)
-                                       | Q(city__contains=search_text)
-                                       | Q(province_contains=search_text)
-                                       | Q(size__gte="1",size__let="100"))
-
-    context["property"] = property
-   
-    
-    return render(request, "search_results.html", context)
 
 def search(request):
-    
-    context = {}
-    context.update(csrf(request))
-    context['property'] = Property.objects.all()
-    
-    return render(request, "search.html", context)
 
+    if request.method == 'POST':
+        post_text = request.POST.get('the_post')
+        response_data = {}
+    
+        post = Property(title=post_text)
+        post.save()
+    
+        response_data['result'] = 'Create post successful!'
+        response_data['text'] = post.text
+        
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )
+    
+        
+   
 @login_required
 def addProperty(request):
     user = request.user
