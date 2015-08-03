@@ -4,7 +4,7 @@ from django.http.response import HttpResponse
 from django.db import connection
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.contrib.auth.models import User
 from property.models import *
 import os.path, datetime, math, re
@@ -104,14 +104,42 @@ def property(request, property_id):
             content_type="application/json"
         )"""
 def search(request):
+    found_entries = Property.objects.all()
+
+    # Filters all the properties based on user entered query data
     query_string = ''
-    found_entries = None
+    has_filtered = 0
+    # Process query for user entered title and body
     if ('search' in request.GET) and request.GET['search'].strip():
         query_string = request.GET['search']
-
         entry_query = get_query(query_string, ['title', 'text', ])
+        found_entries = found_entries.filter(entry_query).order_by('-date_added')
+        has_filtered = 1
+    # Process query for user entered province
+    if ('s_province' in request.GET) and request.GET['s_province'].strip():
+        province_query = request.GET['s_province']
+        entry_query = get_query(province_query, ['province', ])
+        found_entries = found_entries.filter(entry_query).order_by('-date_added')
+        has_filtered = 1
+    # Process query for user entered province
+    if ('s_city' in request.GET) and request.GET['s_city'].strip():
+        city_query = request.GET['s_city']
+        entry_query = get_query(city_query, ['city', ])
+        found_entries = found_entries.filter(entry_query).order_by('-date_added')
+        has_filtered = 1
+    # Process query for user entered province
+    if ('s_size' in request.GET) and request.GET['s_size'].strip():
+        size_query = request.GET['s_size']
+        # Don't filter if size parameters were unspecified
+        if size_query != '0,1000':
+            found_entries = found_entries.filter(size__gt=size_query.split(',')[0])\
+                .filter(size__lt=size_query.split(',')[1]).order_by('-date_added')
+            has_filtered = 1
 
-        found_entries = Property.objects.filter(entry_query).order_by('-date_added')
+    # If no search field was entered, make sure nothing is returned
+    if (has_filtered == 0):
+        found_entries = None
+
     context = {"query_string": query_string, "found_entries": found_entries}
     return render(request, 'search.html', context)
 
