@@ -6,6 +6,7 @@ from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.models import User
+from OpenYard import settings
 from property.models import *
 import os.path, datetime, math, re
 from pydoc import describe
@@ -156,7 +157,7 @@ def addProperty(request):
     # A GET request from the user/client means that the user is trying
     # to access the form. So simply render the add property page in this case
     if request.method == 'GET':
-        context = {'user': user}
+        context = {'user' : user, 'notification' : ''}
         return render(request, "addProperty.html", context)
     else:
         # A POST request was probably submitted (which only happens when a user
@@ -172,6 +173,10 @@ def addProperty(request):
         image_upload_time = datetime.datetime.now()
         image_name = ''
         if (len(request.FILES) > 0):
+            if (request.FILES['my-file-selector'].size > 10000000):
+                # The file has to be < 10MB
+                context = {'user' : user, 'notification' : 'The file can only be <10 MB!'}
+                return render(request, "addProperty.html", context)
             fType = request.FILES['my-file-selector'].name.split('.', 2)[1]
             # Files will be named like username2015-08-01201015.312000.png
             if (fType != ""):
@@ -193,7 +198,7 @@ def addProperty(request):
         property.save()
         return HttpResponseRedirect('/')
 
-def handle_uploaded_file(f, name):
+def handle_uploaded_file(f, name):  
     # Divide the uploaded file into chunks, before uploading them onto the server
     destination = open(os.path.join(settings.USERIMG_DIR, name), 'wb+')
     for chunk in f.chunks():

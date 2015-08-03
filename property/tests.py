@@ -156,6 +156,36 @@ def TestProperty(TestCase):
         self.assertEqual(response.context['property'].size, '10000')
         self.assertEqual(response.context['property'].text, 'Test')
         
+    def test_add_rating(self):
+        # Add a property
+        request = self.factory.post('/addProperty/',
+                                    {'title' : 'Mansion',
+                                     'address' : '1000 Military Drive',
+                                     'city' : 'Toronto',
+                                     'province' : 'Ontario',
+                                     'size' : 10000,
+                                     'text' : 'Test',
+                                     'user' : 'admin'})
+        request.user = self.user
+        views.addProperty(request)
+        
+        # Add a review
+        property_id = Property.object.get(title = 'Mansion').id
+        request = self.factory.post('/property/' + str(property_id),
+                                    {'review' : 'Property was as advertised',
+                                    'starrating' : 5})
+        request.user = self.user
+        views.property(request, property_id)
+        
+        # Check to see if the property view is able to retrieve the new review
+        c = Client()
+        response = c.get('/property/' + str(property_id))
+        review = response.context['reviews']
+        self.assertNotEqual(review, None)
+        if (review):
+            self.assertEqual(review.text, 'Property was as advertised')
+            self.assertEqual(review.rating, 5)
+        
     def tearDown(self):
         Property.objects.all().delete()
         
