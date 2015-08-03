@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.models import User
 from property.models import *
+from OpenYard import settings
 import os.path
 import datetime
 from pydoc import describe
@@ -155,7 +156,7 @@ def addProperty(request):
 
 def handle_uploaded_file(f, name):
     # Divide the uploaded file into chunks, before uploading them onto the server
-    destination = open(os.path.join(os.path.dirname(os.path.dirname(__file__)),'pub\\img\\' + name), 'wb+')
+    destination = open(os.path.join(settings.USERIMG_DIR, name), 'wb+')
     for chunk in f.chunks():
         destination.write(chunk)
     destination.close()
