@@ -6,11 +6,17 @@ from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Max
 from django.contrib.auth.models import User
+from OpenYard import settings
 from property.models import *
 import os.path, datetime, math, re
 from pydoc import describe
 from django.core.serializers import json
 import json
+<<<<<<< HEAD
+from django.core.paginator import Paginator
+=======
+from OpenYard import settings
+>>>>>>> origin/master
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 def home(request):
@@ -55,16 +61,18 @@ def property(request, property_id):
             property_cur = Property.objects.filter(id=property_id)[0]
             Review(user=user_cur, property=property_cur, text=review_new, rating=rating_new).save()
             return HttpResponseRedirect('/property/%s' % property_id)
-            
+
     context = {
                     "username":username,
             }
     property = Property.objects.get(id=property_id)
     context["property"] = property
+    owner_email = User.objects.get(pk=property.user.id).email
+    context["owner_email"] = owner_email
 
     #-- produce reviews for the current property
     #     display at most 10 reviews at a time
-    
+
     # get requested page, default to the first page
     page_number = int(request.GET.get('p', 1))
 
@@ -82,18 +90,25 @@ def property(request, property_id):
     context["total_page_number"] = total_page_number
     return render(request, "property.html", context)
 
+<<<<<<< HEAD
+def search(request):
+
+    
+    return render(request, "search.html", {})   
+   
+=======
 """def search(request):
 
     if request.method == 'POST':
         post_text = request.POST.get('the_post')
         response_data = {}
-    
+
         post = Property(title=post_text)
         post.save()
-    
+
         response_data['result'] = 'Create post successful!'
         response_data['text'] = post.text
-        
+
         return HttpResponse(
             json.dumps(response_data),
             content_type="application/json"
@@ -176,6 +191,7 @@ def get_query(query_string, search_fields):
             query = query & or_query
     return query
 
+>>>>>>> origin/master
 @login_required
 def addProperty(request):
     user = request.user
@@ -183,11 +199,11 @@ def addProperty(request):
     # A GET request from the user/client means that the user is trying
     # to access the form. So simply render the add property page in this case
     if request.method == 'GET':
-        context = {'user': user}
+        context = {'user' : user, 'notification' : ''}
         return render(request, "addProperty.html", context)
     else:
         # A POST request was probably submitted (which only happens when a user
-        # submits a form, so get all of the information in the form 
+        # submits a form, so get all of the information in the form
         # submitted by the user
         title = request.POST.get("title", "")
         address = request.POST.get("address", "")
@@ -199,6 +215,10 @@ def addProperty(request):
         image_upload_time = datetime.datetime.now()
         image_name = ''
         if (len(request.FILES) > 0):
+            if (request.FILES['my-file-selector'].size > 10000000):
+                # The file has to be < 10MB
+                context = {'user' : user, 'notification' : 'The file can only be <10 MB!'}
+                return render(request, "addProperty.html", context)
             fType = request.FILES['my-file-selector'].name.split('.', 2)[1]
             # Files will be named like username2015-08-01201015.312000.png
             if (fType != ""):
