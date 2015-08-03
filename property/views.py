@@ -11,6 +11,7 @@ import os.path, datetime, math, re
 from pydoc import describe
 from django.core.serializers import json
 import json
+from OpenYard import settings
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 def home(request):
@@ -55,7 +56,7 @@ def property(request, property_id):
             property_cur = Property.objects.filter(id=property_id)[0]
             Review(user=user_cur, property=property_cur, text=review_new, rating=rating_new).save()
             return HttpResponseRedirect('/property/%s' % property_id)
-            
+
     context = {
                     "username":username,
             }
@@ -64,7 +65,7 @@ def property(request, property_id):
 
     #-- produce reviews for the current property
     #     display at most 10 reviews at a time
-    
+
     # get requested page, default to the first page
     page_number = int(request.GET.get('p', 1))
 
@@ -87,13 +88,13 @@ def property(request, property_id):
     if request.method == 'POST':
         post_text = request.POST.get('the_post')
         response_data = {}
-    
+
         post = Property(title=post_text)
         post.save()
-    
+
         response_data['result'] = 'Create post successful!'
         response_data['text'] = post.text
-        
+
         return HttpResponse(
             json.dumps(response_data),
             content_type="application/json"
@@ -159,7 +160,7 @@ def addProperty(request):
         return render(request, "addProperty.html", context)
     else:
         # A POST request was probably submitted (which only happens when a user
-        # submits a form, so get all of the information in the form 
+        # submits a form, so get all of the information in the form
         # submitted by the user
         title = request.POST.get("title", "")
         address = request.POST.get("address", "")
