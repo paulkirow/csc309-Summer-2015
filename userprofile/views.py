@@ -1,11 +1,15 @@
 from django.shortcuts import render
 
 from property.models import Property, Review
+from django.contrib.auth.models import User
 
 
 def profile(request, userid):
 
     context = {}
+
+    user = User.objects.get(pk=userid)
+    context["username"] = user
 
     properties = Property.objects.filter(user__id=userid)
     context["properties"] = properties
