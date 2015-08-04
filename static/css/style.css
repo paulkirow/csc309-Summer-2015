@@ -255,3 +255,7 @@ p{
 #profileMain .field-small {
 	font-weight: bold;
 }
+
+#search-results .field-small {
+	font-weight: bold;
+}
