@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_770u$$!6s8lztl*w_r3b%mukf-hdh0rrq&jab^g!eh0)=(t@+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -134,7 +134,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_root")
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-SITE_ID = 1
+SITE_ID = 2
 
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
