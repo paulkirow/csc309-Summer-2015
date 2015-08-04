@@ -26,7 +26,7 @@ SECRET_KEY = '_770u$$!6s8lztl*w_r3b%mukf-hdh0rrq&jab^g!eh0)=(t@+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['justcloudl.com']
 
 
 # Application definition
