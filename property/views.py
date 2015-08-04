@@ -1,20 +1,10 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
-from django.http.response import HttpResponse
-from django.db import connection
-from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q, Max
-from django.contrib.auth.models import User
-from OpenYard import settings
+from django.db.models import Q
 from property.models import *
-import os.path, datetime, math, re
-from pydoc import describe
-from django.core.serializers import json
-import json
-
-from django.core.paginator import Paginator
 from OpenYard import settings
+import os.path, datetime, math, re
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
@@ -89,27 +79,6 @@ def property(request, property_id):
     context["total_page_number"] = total_page_number
     return render(request, "property.html", context)
 
-"""def search(request):
-
-    if request.method == 'POST':
-        post_text = request.POST.get('the_post')
-        response_data = {}
-
-        post = Property(title=post_text)
-        post.save()
-
-        response_data['result'] = 'Create post successful!'
-        response_data['text'] = post.text
-
-        return HttpResponse(
-            json.dumps(response_data),
-            content_type="application/json"
-        )
-    else:
-        return HttpResponse(
-            json.dumps({"nothing to see": "this isn't happening"}),
-            content_type="application/json"
-        )"""
 def search(request):
     found_entries = Property.objects.all()
 

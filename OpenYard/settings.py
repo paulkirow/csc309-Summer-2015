@@ -53,7 +53,7 @@ REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged
 LOGIN_REDIRECT_URL = '/'  # The page you want users to arrive at after they successful log in
 LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not logged in,
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.insurancecartoronto.ca'
+EMAIL_HOST = 'mail.insurancecartoronto.ca' # This is a mail server that a group member already had access to
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
