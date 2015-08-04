@@ -1,5 +1,5 @@
 {% include "header.html" %}
-
+{% load staticfiles %}
     <div class="container-fluid">
         <aside>
             <div id="sidebar">
@@ -8,101 +8,62 @@
         </aside>
 
         <div class="main">
-<<<<<<< HEAD
-        
-        <h3>Search our Website</h3>
-		    
-		
-        <!--
-            <div class="form-group">
-                <label for="province">Province:</label>
-                <select class="form-control" id="province">
-                    <option>ON</option>
-                    <option>AB</option>
-                    <option>CD</option>
-                    <option>EF</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="city">City:</label>
-                <select class="form-control" id="city">
-                    <option>Toronto</option>
-                    <option>Ottawa</option>
-                    <option>Winnipeg</option>
-                    <option>Oshawa</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="size">Size:</label>
-                <div class="sliderWrapper">
-                    <input type="text" class="slider"
-                           data-slider-min="10" data-slider-max="100"
-                           data-slider-step="5" data-slider-value="[10, 100]">
-=======
-        <!--<h3>Search our Website</h3>
-        <form role="form" id="searchform" method="POST"> {% csrf_token %} 
-        	<div class="form-group">
-	        	<input type="text" class="form-control" id="search" name="search" placeholder="Type Your Search Term" />
-	        </div>
-	        <button type="submit" class="btn btn-primary">Search</button>
-        </form>
- 		 <div id="results"></div>
-		
-		<ul id="talk">
-		
-		<li></li>
-		
-		</ul>
-		<ul id="talk">
-            {% for post in property %}
-                <li>
-                    <strong>{{ post.title }}</strong> -
-                   
-                </li>
-            {% endfor %}
-        </ul>
-		-->
             <h3>Search our Website</h3>
             <form role="form" id="searchform" method="get" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="form-group">
                 <input type="text" id="search" name="search"
-                       placeholder="Type Your Search Term | Then Press Enter" />
+                       placeholder="Title and body search" />
+                </div>
                 <div class="form-group">
                     <label for="province">Province:</label>
-                    <select class="form-control" id="province">
-                        <option>ON</option>
-                        <option>AB</option>
-                        <option>CD</option>
-                        <option>EF</option>
-                    </select>
+                    <input type="text" id="s_province" name="s_province"
+                       placeholder="Eg. Ontario" />
                 </div>
                 <div class="form-group">
                     <label for="city">City:</label>
-                    <select class="form-control" id="city">
-                        <option>Toronto</option>
-                        <option>Ottawa</option>
-                        <option>Winnipeg</option>
-                        <option>Oshawa</option>
-                    </select>
+                    <input type="text" id="s_city" name="s_city"
+                       placeholder="Eg. Toronto" />
                 </div>
                 <div class="form-group">
                     <label for="size">Size:</label>
                     <div class="sliderWrapper">
-                        <input type="text" class="slider"
-                               data-slider-min="10" data-slider-max="100"
-                               data-slider-step="5" data-slider-value="[10, 100]">
+                        <input type="text" class="slider" id="s_size" name="s_size"
+                               data-slider-min="0" data-slider-max="1000"
+                               data-slider-step="5" data-slider-value="[0, 1000]">
                     </div>
->>>>>>> origin/master
                 </div>
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
             <div id="search-results">
-                {% for property in found_entries %}
-                    <h3> {{ property.title }}</h3>
-                    <p> {{ property.text }}</p>
-                    <br/>
-                {% endfor %}
+            {% for property in found_entries %}
+                <hr>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="col-xs-12">
+                            <span class="field-small">Title: </span>{{ property.title }}
+                        </div>
+                        <div class="col-xs-12">
+                            <span class="field-small">Address: </span>{{ property.address }}, {{ property.city }}, {{ property.province }}
+                        </div>
+                        <div class="col-xs-12">
+                            <span class="field-small">Size: </span>{{ property.size }}
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-xs-offset-2">
+                        <div class="thumbnail">
+                            <a href="/property/{{ property.id }}">
+                                {% if not property.image_name|length %}
+                                    <img src="{% static 'img/demo.png' %}" width="250px" height="250px"></a>
+                                {% else %}
+                                    <img src="{% static 'pub/img/' %}{{ property.image_name }}" width="250px" height="250px">
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
             </div>
         </div>
     </div>
 	{% include "footer.html" %}
-   
+
