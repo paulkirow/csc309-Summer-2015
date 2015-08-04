@@ -12,11 +12,10 @@ import os.path, datetime, math, re
 from pydoc import describe
 from django.core.serializers import json
 import json
-<<<<<<< HEAD
-=======
+
 from django.core.paginator import Paginator
 from OpenYard import settings
->>>>>>> 8c59071fa653d94673bb140a1eaa364a52d41c4b
+
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 def home(request):
@@ -89,17 +88,6 @@ def property(request, property_id):
     ))
     context["total_page_number"] = total_page_number
     return render(request, "property.html", context)
-
-def search(request):
-
-<<<<<<< HEAD
-    
-    return render(request, "search.html", {})   
-   
-=======
-
-    return render(request, "search.html", {})
->>>>>>> 8c59071fa653d94673bb140a1eaa364a52d41c4b
 
 """def search(request):
 
@@ -195,10 +183,6 @@ def get_query(query_string, search_fields):
             query = query & or_query
     return query
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 8c59071fa653d94673bb140a1eaa364a52d41c4b
 @login_required
 def addProperty(request):
     user = request.user
