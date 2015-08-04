@@ -1,12 +1,13 @@
 from django.shortcuts import render
 
 from property.models import Property, Review
-<<<<<<< HEAD
-from django.core.paginator import Paginator
-=======
-from django.contrib.auth.models import User
 
->>>>>>> origin/master
+from django.core.paginator import Paginator
+
+from django.contrib.auth.models import User
+import os.path, datetime, math, re
+
+
 
 def profile(request, userid):
 
@@ -21,29 +22,28 @@ def profile(request, userid):
     reviews = Review.objects.filter(user__id=userid)
     context["reviews"] = reviews
 
-<<<<<<< HEAD
-    paginator = Paginator(reviews, 5)
+    
 
-    try:
-        page = int(request.GET.get('page', '1'))
-    except:
-        page = 1
+    page_number = int(request.GET.get('p', 1))
 
-    try:
-        posts = paginator.page(page)
-    except(EmptyPage, InvalidPage):
-        posts = paginator.page(paginator.num_pages)
+    # get properties for the requested page
+    start = (page_number - 1) * 10
+    end   = page_number * 10 - 1
+    reviews = Review.objects.filter(property__user__id=userid).order_by("-date_added")[start:end + 1]
+    context["reviews"] = reviews
 
-
-    reviews = Review.objects.filter(property__user__id=userid)
-=======
-    reviews = Review.objects.filter(property__user__id=userid).order_by("-date_added")
->>>>>>> origin/master
+    # page information
+    context["current_page"] = page_number
+    total_page_number = int(math.ceil(
+        Review.objects.filter(property__user__id=userid).order_by("-date_added").count() / 10.0
+    ))
+    context["total_page_number"] = total_page_number 
+   
     valid_ratings = [review.rating for review in reviews if review.rating]
     if len(valid_ratings) > 0:
         avg_rating = float(sum(valid_ratings)) / len(valid_ratings)
     else:
         avg_rating = 0
     context["avg_rating"] = avg_rating
-    context["posts"] = posts
+
     return render(request, "profile.html", context)
